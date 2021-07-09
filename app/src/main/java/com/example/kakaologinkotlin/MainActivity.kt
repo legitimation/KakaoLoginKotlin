@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         val kakao_login_button = findViewById<Button>(R.id.kakao_login_button) as ImageButton
 
         kakao_login_button.setOnClickListener {
@@ -77,6 +79,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
 
 
         val tabLayout=findViewById<TabLayout>(R.id.tab)

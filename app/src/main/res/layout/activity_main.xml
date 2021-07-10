@@ -8,33 +8,33 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="207dp"
+        android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="82dp"
+        android:layout_marginBottom="80dp"
         android:text="Log in"
         app:layout_constraintBottom_toTopOf="@+id/signup"
+        app:layout_constraintEnd_toEndOf="@+id/signup"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="@+id/signup" />
 
     <Button
         android:id="@+id/signup"
-        android:layout_width="90dp"
-        android:layout_height="43dp"
+        android:layout_width="207dp"
+        android:layout_height="60dp"
         android:layout_below="@id/login"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="328dp"
+        android:layout_marginBottom="80dp"
         android:text="Sign up"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/kakao_login_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/kakao_login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_width="207dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="80dp"
         android:background="@android:color/transparent"
         android:src="@drawable/kakao_login_medium_narrow"
         app:layout_constraintBottom_toBottomOf="parent"

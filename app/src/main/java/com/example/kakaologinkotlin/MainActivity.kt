@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
             } else if (user != null) {
                 map["name"] = "${user.kakaoAccount?.profile?.nickname}"
                 map["email"] = "${user.kakaoAccount?.email}"
-                map["password"] = ""
+                map["password"] = "${user.id}"
             }
 
             val call = retrofitInterface!!.executeSignup(map)

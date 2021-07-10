@@ -9,27 +9,29 @@
 
     <TextView
         android:id="@+id/tvNickname"
-        android:layout_width="173dp"
-        android:layout_height="176dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="199dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="264dp"
         android:text="..."
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvProfile"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvProfile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvProfile"
-        android:layout_width="172dp"
-        android:layout_height="157dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="202dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="96dp"
         android:text="..."
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/kakao_logout_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNickname" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNickname"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/kakao_logout_button"

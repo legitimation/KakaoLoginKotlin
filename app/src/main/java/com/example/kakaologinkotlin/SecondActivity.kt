@@ -33,10 +33,13 @@ class SecondActivity : AppCompatActivity() {
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
 //                            + "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
                 )
+
                 val Nickname = findViewById<View>(R.id.tvNickname) as TextView
-                Nickname.text = "User Id: ${user.id}" +
-                        "\nUser Email: ${user.kakaoAccount?.email}" +
-                        "\nUser Nickname: ${user.kakaoAccount?.profile?.nickname}"
+                Nickname.text = "${user.kakaoAccount?.profile?.nickname}" + "님 반갑습니다"
+
+                val tvProfile = findViewById<View>(R.id.tvProfile) as TextView
+                tvProfile.text = "Email: ${user.kakaoAccount?.email}"
+
 
 //                +"\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
             }
@@ -80,15 +83,15 @@ class SecondActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewpager2){tab, position->
             when(position){
                 0->{
-                    tab.text = "Contact"
+                    tab.text = "Profile"
                     tab.setIcon(R.drawable.ic_baseline_person_24)
                 }
                 1->{
-                    tab.text = "Gallery"
+                    tab.text = "Chat"
                     tab.setIcon(R.drawable.ic_baseline_photo_24)
                 }
                 else->{
-                    tab.text = "Map"
+                    tab.text = "Forum"
                     tab.setIcon(R.drawable.ic_baseline_map_24)
                 }
             }

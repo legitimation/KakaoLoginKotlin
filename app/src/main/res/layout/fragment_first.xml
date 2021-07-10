@@ -7,16 +7,29 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-<!--    <SearchView-->
-<!--        android:id="@+id/searchView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:iconifiedByDefault="false"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/listView"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/listView"-->
-<!--        app:queryHint="Search"/>-->
+    <TextView
+        android:id="@+id/tvNickname"
+        android:layout_width="173dp"
+        android:layout_height="176dp"
+        android:layout_marginTop="180dp"
+        android:text="..."
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProfile"
+        android:layout_width="178dp"
+        android:layout_height="211dp"
+        android:layout_marginTop="48dp"
+        android:text="..."
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNickname" />
 
     <ListView
         android:id="@+id/listView"

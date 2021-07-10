@@ -30,13 +30,15 @@ class SecondActivity : AppCompatActivity() {
                     ContentValues.TAG, "사용자 정보 요청 성공" +
                         "\n회원번호: ${user.id}" +
                         "\n이메일: ${user.kakaoAccount?.email}" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                        "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}")
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
+//                            + "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
+                )
                 val Nickname = findViewById<View>(R.id.tvNickname) as TextView
-                Nickname.text = "\n회원번호: ${user.id}" +
-                        "\n이메일: ${user.kakaoAccount?.email}" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                        "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
+                Nickname.text = "User Id: ${user.id}" +
+                        "\nUser Email: ${user.kakaoAccount?.email}" +
+                        "\nUser Nickname: ${user.kakaoAccount?.profile?.nickname}"
+
+//                +"\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
             }
         }
 

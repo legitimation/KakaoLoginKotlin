@@ -1,29 +1,46 @@
 package com.example.kakaologinkotlin
 
-import android.content.ContentValues.TAG
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause.*
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
+
+    private var retrofit: Retrofit? = null
+    private var retrofitInterface: RetrofitInterface? = null
+
+    //    private String BASE_URL = "http://10.0.2.2:3000";
+    private val BASE_URL = "http://192.249.18.185:443"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build().also { retrofit = it }
+
+        retrofitInterface = retrofit?.create(RetrofitInterface::class.java)
+        findViewById<View>(R.id.login).setOnClickListener { handleLoginDialog() }
+        findViewById<View>(R.id.signup).setOnClickListener { handleSignupDialog() }
 
         val keyHash = Utility.getKeyHash(this)
         Log.d("Hash", keyHash)
@@ -63,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                 }
             } else if (token != null) {
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                handleSignupDialogforkakao()
                 val intent = Intent(this, SecondActivity::class.java)
                 startActivity(intent)
             }
@@ -79,32 +97,129 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
 
+    private fun handleLoginDialog() {
+        val view = layoutInflater.inflate(R.layout.login_dialog, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(view).show()
+        val loginBtn = view.findViewById<Button>(R.id.login)
+        val emailEdit = view.findViewById<EditText>(R.id.emailEdit)
+        val passwordEdit = view.findViewById<EditText>(R.id.passwordEdit)
+        loginBtn.setOnClickListener {
+            val map = HashMap<String, String>()
+            map["email"] = emailEdit.text.toString()
+            map["password"] = passwordEdit.text.toString()
+            val call = retrofitInterface!!.executeLogin(map)
+            call.enqueue(object : Callback<LoginResult?> {
+                override fun onResponse(
+                    call: Call<LoginResult?>,
+                    response: Response<LoginResult?>
+                ) {
+                    if (response.code() == 200) {
+                        val result = response.body()
+                        val builder1 = AlertDialog.Builder(this@MainActivity)
+                        builder1.setTitle(result!!.name)
+                        builder1.setMessage(result.email)
+                        builder1.show()
+                    } else if (response.code() == 404) {
+                        Toast.makeText(
+                            this@MainActivity, "Wrong Credentials",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
 
-//
-//        val tabLayout=findViewById<TabLayout>(R.id.tab)
-//        val viewpager2=findViewById<ViewPager2>(R.id.viewPager2)
-//
-//        val adapter = FragmentAdapter(supportFragmentManager, lifecycle)
-//
-//        viewpager2.adapter=adapter
-//
-//        TabLayoutMediator(tabLayout, viewpager2){tab, position->
-//            when(position){
-//                0->{
-//                    tab.text = "Contact"
-//                    tab.setIcon(R.drawable.ic_baseline_person_24)
-//                }
-//                1->{
-//                    tab.text = "Gallery"
-//                    tab.setIcon(R.drawable.ic_baseline_photo_24)
-//                }
-//                else->{
-//                    tab.text = "Map"
-//                    tab.setIcon(R.drawable.ic_baseline_map_24)
-//                }
-//            }
-//        }.attach()
+                override fun onFailure(call: Call<LoginResult?>, t: Throwable) {
+                    Toast.makeText(
+                        this@MainActivity, t.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
+    }
 
+    private fun handleSignupDialog() {
+        val view = layoutInflater.inflate(R.layout.signup_dialog, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(view).show()
+        val signupBtn = view.findViewById<Button>(R.id.signup)
+        val nameEdit = view.findViewById<EditText>(R.id.nameEdit)
+        val emailEdit = view.findViewById<EditText>(R.id.emailEdit)
+        val passwordEdit = view.findViewById<EditText>(R.id.passwordEdit)
+        signupBtn.setOnClickListener {
+            val map = HashMap<String, String>()
+            map["name"] = nameEdit.text.toString()
+            map["email"] = emailEdit.text.toString()
+            map["password"] = passwordEdit.text.toString()
+            val call = retrofitInterface!!.executeSignup(map)
+            call.enqueue(object : Callback<Void?> {
+                override fun onResponse(
+                    call: Call<Void?>,
+                    response: Response<Void?>
+                ) {
+                    if (response.code() == 200) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Signed up successfully", Toast.LENGTH_LONG
+                        ).show()
+                    } else if (response.code() == 400) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Already registered", Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void?>, t: Throwable) {
+                    Toast.makeText(
+                        this@MainActivity, t.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
+    }
+
+    private fun handleSignupDialogforkakao() {
+        val map = HashMap<String, String>()
+
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
+            } else if (user != null) {
+                map["name"] = "${user.kakaoAccount?.profile?.nickname}"
+                map["email"] = "${user.kakaoAccount?.email}"
+                map["password"] = ""
+            }
+
+            val call = retrofitInterface!!.executeSignup(map)
+            call.enqueue(object : Callback<Void?> {
+                override fun onResponse(
+                    call: Call<Void?>,
+                    response: Response<Void?>
+                ) {
+                    if (response.code() == 200) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Signed up successfully", Toast.LENGTH_LONG
+                        ).show()
+                    } else if (response.code() == 400) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Already registered", Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void?>, t: Throwable) {
+                    Toast.makeText(
+                        this@MainActivity, t.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
     }
 }

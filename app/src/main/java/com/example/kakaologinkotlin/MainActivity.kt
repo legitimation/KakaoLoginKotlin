@@ -80,5 +80,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+//
+//        val tabLayout=findViewById<TabLayout>(R.id.tab)
+//        val viewpager2=findViewById<ViewPager2>(R.id.viewPager2)
+//
+//        val adapter = FragmentAdapter(supportFragmentManager, lifecycle)
+//
+//        viewpager2.adapter=adapter
+//
+//        TabLayoutMediator(tabLayout, viewpager2){tab, position->
+//            when(position){
+//                0->{
+//                    tab.text = "Contact"
+//                    tab.setIcon(R.drawable.ic_baseline_person_24)
+//                }
+//                1->{
+//                    tab.text = "Gallery"
+//                    tab.setIcon(R.drawable.ic_baseline_photo_24)
+//                }
+//                else->{
+//                    tab.text = "Map"
+//                    tab.setIcon(R.drawable.ic_baseline_map_24)
+//                }
+//            }
+//        }.attach()
+
     }
 }
